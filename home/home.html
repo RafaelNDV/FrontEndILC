@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucimário Caitano</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/802a537608.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="telaModal">
+        <div class="modalAdicionarAluno">
+            <h1>Preencha os dados do aluno</h1>
+            <section class="localDados">
+                <div class="dado">
+                    <label for="nomeAluno">Nome Completo:</label>
+                    <input type="text" name="nomeAluno" id="nomeAluno" placeholder="Nome completo do aluno">
+                </div>
+                <div class="dado">
+                    <label for="NascimentoAluno">Data de Nascimento:</label>
+                    <input type="date" name="NascimentoAluno" id="NascimentoAluno" placeholder="__/__/____">
+                </div>
+                <div class="dado">
+                    <label for="responsavelAluno">Responsável do Aluno:</label>
+                    <input type="text" name="responsavelAluno" id="responsavelAluno" placeholder="Nome do Responsável">
+                </div>
+                <div class="dado">
+                    <label for="cpfAluno">CPF do Aluno:</label>
+                    <input type="text" name="cpfAluno" id="cpfAluno" placeholder="000.000.000-00">
+                </div>
+            </section>
+            <div class="btnModalAdicionar">
+                <button class="btnCancelar" id="btnCancelarAluno">Cancelar</button>
+                <button class="btnAdicionar">Adicionar</button>
+            </div>
+        </div>
+        <div class="modalAdicionarEmMassa">
+            <h1>Adicione alunos de forma rápida</h1>
+            <section class="localMassa">
+                <label for="textoArea">Adicione os alunos linha a linha:</label>
+                <textarea name="textoArea" id="textoArea" placeholder="Nome completo, Nascimento, CPF..."></textarea>
+            <div class="btnModalAdicionarMassa">
+                <button class="btnCancelar" id="btnCancelarMassa">Cancelar</button>
+                <button class="btnAdicionar">Adicionar</button>
+            </div>
+            </section>
+        </div>
+        <div class="modalExcluirAluno">
+            <h1>Escolha o aluno para excluir</h1>
+            <section class="localExcluir">
+
+            </section>
+            <div class="btnModalExcluirAluno">
+                <button class="btnCancelar" id="btnCancelarExcluir">Cancelar</button>
+                <button class="btnAdicionar">Adicionar</button>
+            </div>
+        </div>
+    </div>
+    <section class="barraLateral">
+        <i class="fa-solid fa-house" id="clicado"></i>
+        <i class="fa-solid fa-gear"></i>
+    </section>
+    <section class="todoConteudo">
+        <header>
+            <h1>Painel Geral - Instituto Lucimário Caitano</h1>
+        </header>
+        <main>
+            <div class="botoes">
+                <button class="addAluno">Adicionar Aluno</button>
+                <button class="excluirAluno">Excluir Aluno</button>
+                <button class="adicionarEmMassa">Adicionar em Massa</button>
+            </div>
+            <section class="informacoes">
+                <h2>Total de alunos</h2>
+                <div class="totalAlunos">
+                    <div class="numeros">
+                        Matriculados<br>
+                        <span>456</span>
+                    </div>
+                    <div class="numeros">
+                        Ativos<br>
+                        <span>360</span>
+                    </div>
+                    <div class="numeros">
+                        Frequentes<br>
+                        <span>282</span>
+                    </div>
+                </div>
+            </section>
+            <section class="graficos">
+                <div class="pizza">
+                    <canvas id="graficoPizza" width="400" height="400"></canvas>
+                </div>
+                <div class="barras">
+                    <canvas id="graficoBarras" width="400" height="400"></canvas>
+                </div>
+                <div class="linha">
+                    <canvas id="graficoLinha" width="400" height="400"></canvas>
+                </div>
+            </section>
+        </main>
+        <footer>
+            &copy Institudo Lucimário Caitano 2025
+        </footer>
+    </section>
+
+    <script src="js/js.js"></script>
+    <script src="js/graficos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
