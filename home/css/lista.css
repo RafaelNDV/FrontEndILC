@@ -20,6 +20,188 @@ body{
     height: 100vh;
     width: 100vw;
 }
+.telaModal{
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.377);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+}
+.modalAdicionarAluno{
+    display: none;
+    width: 1000px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: rgb(216, 216, 216);
+}
+.modalAdicionarAluno h1{
+    color: var(--cor1);
+    text-shadow: 1px 1px 2px black;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.modalAdicionarAluno .localDados{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: rgb(197, 197, 197);
+    gap: 10px;
+}
+.dado{
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 3px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.dado label{
+    font-weight: bold;
+    text-align: center;
+}
+.dado input, .dado select{
+    display: inline-block;
+    width: 304px;
+    height: 35px;
+    font-size: 1em;
+    padding: 2px;
+    border: 2px solid var(--cor1);
+    outline: 1px solid var(--cor2);
+    border-radius: 5px;
+}
+.dado input:focus{
+    outline: 2px solid var(--cor2);
+}
+#anaminese{
+    height: 35px;
+    border: none;
+    outline: none;
+}
+.btnModalAdicionar{
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    gap: 10px;
+}
+.btnModalAdicionar .btnCancelar{
+    background-color: rgb(248, 99, 99);
+    border: 2px solid red;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+.btnModalAdicionar .btnCancelar:hover{
+    background-color: rgb(211, 83, 83);
+}
+.modalAdicionarEmMassa{
+    display: none;
+    width: 1000px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: rgb(216, 216, 216);
+}
+.modalAdicionarEmMassa h1{
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--cor1);
+    text-shadow: 1px 1px 2px rgb(0, 0, 0);
+}
+textarea{
+    border-radius: 10px;
+    border: 2px solid var(--cor3);
+    padding: 5px;
+    font-size: 1em;
+}
+textarea:focus{
+    outline: 2px solid var(--cor1);
+}
+.btnModalAdicionarMassa{
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    gap: 10px;
+}
+.btnModalAdicionarMassa .btnCancelar{
+    background-color: rgb(248, 99, 99);
+    border: 2px solid red;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+.btnModalAdicionarMassa .btnCancelar:hover{
+    background-color: rgb(211, 83, 83);
+}
+.localMassa{
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 5px;
+}
+.localMassa label{
+    font-weight: bold;
+}
+.localMassa textarea{
+    height: 300px;
+}
+.modalExcluirAluno{
+    display: none;
+    padding: 20px;
+    border-radius: 15px;
+    width: 1000px;
+    background-color: rgb(216, 216, 216);
+}
+.modalExcluirAluno h1{
+    text-align: center;
+    color: var(--cor1);
+    text-shadow: 1px 1px 2px black;
+}
+.btnModalExcluirAluno{
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    gap: 10px;
+}
+.btnModalExcluirAluno .btnCancelar{
+    background-color: rgb(248, 99, 99);
+    border: 2px solid red;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+.btnModalExcluirAluno .btnCancelar:hover{
+    background-color: rgb(211, 83, 83);
+}
+.modalVerAluno {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    background: white;
+    width: 1000px;
+    max-height: 80vh;
+    overflow-y: auto;
+
+    inset: 0;
+    margin: auto;
+
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.modalVerAluno h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.modalVerAluno strong{
+    font-size: 2em;
+}
+.modalVerAluno p {
+    margin: 5px;
+    font-size: 1em;
+}
 .barraLateral{
     display: flex;
     flex-flow: column nowrap;
@@ -138,6 +320,7 @@ h2{
     background-color: rgb(223, 222, 222);
     justify-items: center;
     align-items: center;
+    border: 1px solid rgb(155, 155, 155);
 }
 .alunoLista i{
     display: flex;

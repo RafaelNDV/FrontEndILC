@@ -34,38 +34,18 @@ btnCancelarMassa.addEventListener('click', function(){
     modalAdicionarEmMassa.style.display = 'none'
 })
 
+function atualizarNumeros() {
+    const alunos = JSON.parse(localStorage.getItem("alunos")) || [];
 
-const formAddAluno = document.querySelector('.formAddAluno')
+    const publicos = alunos.filter(a => a.escola === "Pública").length;
+    const particulares = alunos.filter(a => a.escola === "Particular").length;
 
-formAddAluno.addEventListener('submit', function(e) {
-    e.preventDefault()
+    // Total de alunos
+    document.querySelector("#totalMatriculados").textContent = alunos.length;
 
-    const dados = {
-        id: Date.now(),
-        nome: document.querySelector('#nomeAluno').value,
-        nascimento: document.querySelector('#NascimentoAluno').value,
-        rg: document.querySelector('#RG').value,
-        cpf: document.querySelector('#cpfAluno').value,
-        endereco: document.querySelector('#enderecoAluno').value,
-        numero: document.querySelector('#numeroEndereco').value,
-        bairro: document.querySelector('#bairroAluno').value,
-        municipio: document.querySelector('#municipio').value,
-        escola: document.querySelector('#escolaAluno').value,
-        serie: document.querySelector('#serieAluno').value,
-        turno: document.querySelector('#turnoAluno').value,
-        contato1: document.querySelector('#contato1').value,
-        contato2: document.querySelector('#contato2').value,
-        responsavel: document.querySelector('#responsavelAluno').value,
-        anaminese: document.querySelector('#anaminese').checked
-    };
+    // Aqui você escolhe outra métrica interessante
+    document.querySelector("#totalParticulares").textContent = particulares; // Exemplo temporário
+    document.querySelector("#totalPublicas").textContent = publicos; // Exemplo temporário
+}
 
-    console.log("Aluno adicionado: ", dados)
-
-    let alunos = JSON.parse(localStorage.getItem('alunos')) || []
-
-    alunos.push(dados)
-
-    localStorage.setItem('alunos', JSON.stringify(alunos))
-    
-    console.log("Lista completa de alunos agora: ", alunos)
-})
+atualizarNumeros()

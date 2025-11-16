@@ -1,12 +1,81 @@
-document.addEventListener('DOMContentLoaded', function(){
-    const container = document.querySelector('.listaAlunos')
-    let alunos = JSON.parse(localStorage.getItem('alunos')) || []
+console.log('lista.js carregada')
+const formAddAluno = document.querySelector('.formAddAluno')
 
-    alunos.forEach(aluno =>{
-        const bloco = criarAlunoHTML(aluno)
-        container.appendChild(bloco)
+const campoData = document.querySelector('#NascimentoAluno')
+
+campoData.addEventListener('input', () => {
+    let v = campoData.value.replace(/\D/g, ""); // só números
+
+    if (v.length >= 3 && v.length <= 4) {
+        v = v.replace(/(\d{2})(\d+)/, "$1/$2");
+    }
+    else if (v.length > 4) {
+        v = v.replace(/(\d{2})(\d{2})(\d+)/, "$1/$2/$3");
+    }
+
+    campoData.value = v.substring(0, 10); // limita a dd/mm/aaaa
+});
+
+
+if(formAddAluno && !formAddAluno.dataset.listernerAdded){
+
+    formAddAluno.dataset.listernerAdded = "true"
+
+    formAddAluno.addEventListener('submit', function(e) {
+        e.preventDefault()
+
+        const dados = {
+            id: Date.now(),
+            nome: document.querySelector('#nomeAluno').value,
+            nascimento: converterParaISO(document.querySelector('#NascimentoAluno').value),
+            rg: document.querySelector('#RG').value,
+            cpf: document.querySelector('#cpfAluno').value,
+            endereco: document.querySelector('#enderecoAluno').value,
+            numero: document.querySelector('#numeroEndereco').value,
+            bairro: document.querySelector('#bairroAluno').value,
+            municipio: document.querySelector('#municipio').value,
+            escola: document.querySelector('#escolaAluno').value,
+            serie: document.querySelector('#serieAluno').value,
+            turno: document.querySelector('#turnoAluno').value,
+            contato1: document.querySelector('#contato1').value,
+            contato2: document.querySelector('#contato2').value,
+            responsavel: document.querySelector('#responsavelAluno').value,
+            anaminese: document.querySelector('#anaminese').checked
+        };
+
+        console.log("Aluno adicionado: ", dados)
+
+        let alunos = JSON.parse(localStorage.getItem('alunos')) || []
+
+        alunos.push(dados)
+
+        localStorage.setItem('alunos', JSON.stringify(alunos))
+
+        telaModal.style.display = 'none'
+        modalAdicionarAluno.style.display = 'none'
+        formAddAluno.reset() 
+        
+        console.log("Lista completa de alunos agora: ", alunos)
     })
-})
+}
+
+function converterParaISO(dataBr){
+    let [dia, mes, ano] = dataBr.split('/')
+    return `${ano}-${mes}-${dia}`
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.listaAlunos');
+    if (!container) return; // <-- impede erro no home.html
+
+    let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+
+    alunos.forEach(aluno => {
+        const bloco = criarAlunoHTML(aluno);
+        container.appendChild(bloco);
+    });
+});
+
 
 function criarAlunoHTML(aluno){
     const div = document.createElement('div')
@@ -28,12 +97,17 @@ function criarAlunoHTML(aluno){
         </i>
     `
 
+    div.querySelector('.ver').addEventListener('click', function() {
+    abrirModalVerAluno(aluno)
+})
+
     div.querySelector('.excluir').addEventListener('click', function(){
         excluirAlunoLista(aluno.id, div)
     })
 
     return div
 }
+
 
 function excluirAlunoLista(id, elementoHTML){
     let alunos = JSON.parse(localStorage.getItem('alunos')) || []
@@ -56,3 +130,104 @@ function calcularIdade(data){
     }
     return idade
 }
+
+// ===============================
+// ADICIONAR EM MASSA
+// ===============================
+
+const btnAdicionarMassa = document.querySelector('#btnAdicionarMassa');
+const textareaMassa = document.querySelector('#textoArea');
+
+if (btnAdicionarMassa && textareaMassa) {
+
+    btnAdicionarMassa.addEventListener('click', function () {
+
+        const texto = textareaMassa.value.trim();
+
+        if (!texto) {
+            alert("Cole pelo menos uma linha de dados.");
+            return;
+        }
+
+        // Pega alunos já existentes
+        let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+
+        // Cada linha vira um aluno
+        const linhas = texto.split('\n');
+
+        const novosAlunos = [];
+
+        linhas.forEach(linha => {
+
+            // separa por ; , ou tab
+            const partes = linha.split(/[,;|\t]/).map(p => p.trim());
+
+            // aqui você diz qual ordem está usando
+            const dados = {
+                id: Date.now() + Math.random(),
+                nome: partes[0] || "",
+                nascimento: partes[1] ? converterParaISO(partes[1]) : "",
+                cpf: partes[2] || "",
+                rg: partes[3] || "",
+                endereco: partes[4] || "",
+                numero: partes[5] || "",
+                bairro: partes[6] || "",
+                municipio: partes[7] || "",
+                escola: partes[8] || "",
+                serie: partes[9] || "",
+                turno: partes[10] || "",
+                contato1: partes[11] || "",
+                contato2: partes[12] || "",
+                responsavel: partes[13] || "",
+                anaminese: false
+            };
+
+            novosAlunos.push(dados);
+        });
+
+        // salva no localStorage
+        alunos.push(...novosAlunos);
+        localStorage.setItem('alunos', JSON.stringify(alunos));
+
+        // limpa e fecha modal
+        textareaMassa.value = "";
+        telaModal.style.display = "none";
+        modalAdicionarEmMassa.style.display = "none";
+
+        alert("Alunos adicionados com sucesso!");
+    });
+}
+
+const modalVerAluno = document.querySelector('.modalVerAluno');
+
+function abrirModalVerAluno(aluno) {
+
+    telaModal.style.display = 'block';
+    modalVerAluno.style.display = 'block';
+
+    document.querySelector('#ver_nome').textContent = aluno.nome;
+    document.querySelector('#ver_nascimento').textContent = aluno.nascimento.split('-').reverse().join('/');
+    document.querySelector('#ver_idade').textContent = calcularIdade(aluno.nascimento);
+    document.querySelector('#ver_cpf').textContent = aluno.cpf;
+    document.querySelector('#ver_rg').textContent = aluno.rg;
+    document.querySelector('#ver_endereco').textContent = aluno.endereco + ", " + aluno.numero;
+    document.querySelector('#ver_bairro').textContent = aluno.bairro;
+    document.querySelector('#ver_municipio').textContent = aluno.municipio;
+    document.querySelector('#ver_escola').textContent = aluno.escola;
+    document.querySelector('#ver_serie').textContent = aluno.serie;
+    document.querySelector('#ver_turno').textContent = aluno.turno;
+    document.querySelector('#ver_contato1').textContent = aluno.contato1;
+    document.querySelector('#ver_contato2').textContent = aluno.contato2;
+    document.querySelector('#ver_responsavel').textContent = aluno.responsavel;
+    document.querySelector('#ver_anamnese').textContent = aluno.anaminese ? "Sim" : "Não";
+}
+
+// botão de fechar
+const btnFecharVer = document.querySelector('#btnFecharVer');
+if (btnFecharVer) {
+    btnFecharVer.addEventListener('click', () => {
+        modalVerAluno.style.display = 'none';
+        telaModal.style.display = 'none';
+    });
+}
+

@@ -19,7 +19,7 @@
                     </div>
                     <div class="dado">
                         <label for="NascimentoAluno">Data de Nascimento:</label>
-                        <input type="date" name="NascimentoAluno" id="NascimentoAluno" placeholder="dia/mês/ano">
+                        <input type="text" name="NascimentoAluno" id="NascimentoAluno" placeholder="dd/mm/aaaa" inputmode="numeric" pattern="\d{2}/\d{2}/\d{4}">
                     </div>
                     <div class="dado">
                         <label for="RG">RG:</label>
@@ -47,7 +47,11 @@
                     </div>
                     <div class="dado">
                         <label for="escolaAluno">Escola:</label>
-                        <input type="text" name="escolaAluno" id="escolaAluno" placeholder="Escola do aluno">
+                        <select type="text" name="escolaAluno" id="escolaAluno">
+                            <option value="">Selecione...</option>
+                            <option value="Particular">Particular</option>
+                            <option value="Pública">Pública</option>
+                        </select>
                     </div>
                     <div class="dado">
                         <label for="serieAluno">Série:</label>
@@ -76,7 +80,7 @@
                 
                 </section>
                 <div class="btnModalAdicionar">
-                    <button class="btnCancelar" id="btnCancelarAluno">Cancelar</button>
+                    <button type="button" class="btnCancelar" id="btnCancelarAluno">Cancelar</button>
                     <button type="submit" class="btnAdicionar">Adicionar</button>
                 </div>
             </form>
@@ -88,7 +92,7 @@
                 <textarea name="textoArea" id="textoArea" placeholder="Nome completo, Nascimento, CPF..."></textarea>
             <div class="btnModalAdicionarMassa">
                 <button class="btnCancelar" id="btnCancelarMassa">Cancelar</button>
-                <button class="btnAdicionar">Adicionar</button>
+                <button id="btnAdicionarMassa" class="btnAdicionar">Adicionar</button>
             </div>
             </section>
         </div>
@@ -123,15 +127,15 @@
                 <div class="totalAlunos">
                     <div class="numeros">
                         Matriculados<br>
-                        <span>456</span>
+                        <span id="totalMatriculados">456</span>
                     </div>
                     <div class="numeros">
-                        Ativos<br>
-                        <span>360</span>
+                        Escolas Particular<br>
+                        <span id="totalParticulares">360</span>
                     </div>
                     <div class="numeros">
-                        Frequentes<br>
-                        <span>282</span>
+                        Escolas Públicas<br>
+                        <span id="totalPublicas">282</span>
                     </div>
                 </div>
             </section>
@@ -141,11 +145,11 @@
                     <canvas id="graficoPizza" width="400" height="400"></canvas>
                 </div>
                 <div class="barras">
-                    <h3>Renda Familiar</h3>
+                    <h3>Idades</h3>
                     <canvas id="graficoBarras" width="400" height="400"></canvas>
                 </div>
                 <div class="linha">
-                    <h3>Idade</h3>
+                    <h3>Total de Alunos</h3>
                     <canvas id="graficoLinha" width="400" height="400"></canvas>
                 </div>
             </section>
@@ -156,6 +160,7 @@
     </section>
 
     <script src="js/js.js"></script>
+    <script src="js/lista.js"></script>
     <script src="js/graficos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
