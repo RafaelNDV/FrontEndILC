@@ -74,6 +74,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const bloco = criarAlunoHTML(aluno);
         container.appendChild(bloco);
     });
+    // FILTRO PELO PRIMEIRO NOME
+    const inputPesquisa = document.querySelector('#pesquisa');
+    if(inputPesquisa) {
+        inputPesquisa.addEventListener('input', () => {
+            const termo = inputPesquisa.value.trim().toLowerCase();
+            const alunosDivs = document.querySelectorAll('.alunoLista');
+            alunosDivs.forEach(alunoDiv => {
+                const nomeCompleto = alunoDiv.querySelector('i').textContent;
+                const primeiroNome = nomeCompleto.split(' ')[0].toLowerCase();
+                alunoDiv.style.display = primeiroNome.includes(termo) ? '' : 'none';
+            });
+        });
+    }
 });
 
 

@@ -91,7 +91,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     // ===== Gráfico de Linha (ex: evolução mensal) =====
-    // ===== Gráfico de Linha (ex: evolução mensal) =====
     const ctxLinha = document.getElementById('graficoLinha')?.getContext('2d'); 
 
     if(ctxLinha) {
@@ -103,8 +102,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     label: 'Alunos Ativos',
                     data: [0, 0, 0, 0, 0, alunos.length], // último mês = total atual
                     fill: true,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(58, 231, 73, 0.2)',
+                    borderColor: 'rgba(4, 110, 27, 1)',
                     borderWidth: 2,
                     tension: 0.3
                 }]
