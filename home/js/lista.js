@@ -17,6 +17,61 @@ campoData.addEventListener('input', () => {
     campoData.value = v.substring(0, 10); // limita a dd/mm/aaaa
 });
 
+// FORMATANDO O CPF
+const campoCPF = document.querySelector('#cpfAluno');
+
+if (campoCPF) {
+  campoCPF.setAttribute('inputmode', 'numeric'); // ajuda em mobiles
+  campoCPF.setAttribute('maxlength', '14');      // 11 dígitos + 2 pontos + 1 traço = 14 chars
+
+  campoCPF.addEventListener('input', () => {
+    // remove tudo que não é número e limita a 11 dígitos
+    let v = campoCPF.value.replace(/\D/g, '').slice(0, 11);
+
+    // aplica a máscara de acordo com a quantidade de dígitos
+    if (v.length <= 3) {
+      campoCPF.value = v;
+    } else if (v.length <= 6) {
+      // 000.000
+      campoCPF.value = v.replace(/(\d{3})(\d+)/, '$1.$2');
+    } else if (v.length <= 9) {
+      // 000.000.000
+      campoCPF.value = v.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
+    } else {
+      // 000.000.000-00
+      campoCPF.value = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+    }
+    });
+}
+
+function aplicarMascaraTelefone(input) {
+    input.addEventListener('input', () => {
+        let v = input.value.replace(/\D/g, "").slice(0, 11); // apenas números, máximo 11 dígitos
+
+        if (v.length > 6) {
+            // (99) 99999-9999
+            v = v.replace(/(\d{2})(\d{5})(\d+)/, "($1) $2-$3");
+        } 
+        else if (v.length > 2) {
+            // (99) 9999
+            v = v.replace(/(\d{2})(\d+)/, "($1) $2");
+        } 
+        else {
+            // (99
+            v = v.replace(/(\d{0,2})/, "($1");
+        }
+
+        input.value = v;
+    });
+}
+
+const contato1 = document.querySelector('#contato1');
+const contato2 = document.querySelector('#contato2');
+
+if (contato1) aplicarMascaraTelefone(contato1);
+if (contato2) aplicarMascaraTelefone(contato2);
+
+
 // RECEBENDO OS DADOS DO FORM
 if(formAddAluno && !formAddAluno.dataset.listernerAdded){
 

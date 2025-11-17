@@ -31,6 +31,8 @@ function atualizarNumeros() {
     const publicos = alunos.filter(a => a.escola === "Pública").length;
     const particulares = alunos.filter(a => a.escola === "Particular").length;
 
+    if(!document.querySelector('#totalMatriculados')) return
+
     // Total de alunos
     document.querySelector("#totalMatriculados").textContent = alunos.length;
 
