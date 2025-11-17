@@ -286,3 +286,27 @@ if (btnFecharVer) {
     });
 }
 
+// ENTER passa para o próximo input, e só envia no último
+const campos = document.querySelectorAll('.formAddAluno input, .formAddAluno select');
+const form = document.querySelector('.formAddAluno');
+
+campos.forEach((campo, index) => {
+    campo.addEventListener('keydown', function(e) {
+
+        // Se apertou Enter
+        if (e.key === 'Enter') {
+            e.preventDefault(); // impede envio automático
+
+            const ultimo = index === campos.length - 1;
+
+            if (!ultimo) {
+                // Vai para o próximo campo
+                campos[index + 1].focus();
+            } else {
+                // Se for o último: envia o formulário
+                form.requestSubmit();
+            }
+        }
+    });
+});
+
