@@ -6,7 +6,7 @@ const telaModal = document.querySelector('.telaModal')
 const btnCancelarAluno = document.querySelector('#btnCancelarAluno')
 const btnCancelarMassa = document.querySelector('#btnCancelarMassa')
 
-
+// ABRINDO E FECHANDO O MODAL DE ADICIONAR E ADICIONAR EM MASSA
 addAluno.addEventListener('click', function(){
     telaModal.style.display = 'flex'
     modalAdicionarAluno.style.display = 'block'
@@ -24,6 +24,7 @@ btnCancelarMassa.addEventListener('click', function(){
     modalAdicionarEmMassa.style.display = 'none'
 })
 
+// FUNÇÃO PARA ATUALIZAR OS NÚMEROS NA TELA, DE MATRICULADOS...
 function atualizarNumeros() {
     const alunos = JSON.parse(localStorage.getItem("alunos")) || [];
 

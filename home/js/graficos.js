@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
         else if (aluno.escola === "Particular") particular++;
     });
 
-    // ===== Gráfico de Pizza =====
+    // GRÁFICO DE PIZZA DAS ESCOLAS
     const ctxPizza = document.getElementById('graficoPizza').getContext('2d');
     const graficoPizza = new Chart(ctxPizza, {
         type: 'pie',
@@ -43,10 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // ===== Gráfico de Barras =====
-    // ===== Gráfico de Barras: Distribuição de Idades =====
-
-    // Vamos pegar apenas as datas de nascimento e transformá-las em idades
+    // Gráfico de Barras: Distribuição de Idades 
     let idades = alunos
         .map(aluno => calcularIdade(aluno.nascimento)) // sua função já existente
         .filter(idade => idade >= 5 && idade <= 16); // só idades válidas
@@ -90,7 +87,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // ===== Gráfico de Linha (ex: evolução mensal) =====
+    // GRÁFICO DE LINHA EVOLUÇÃO MENSAL DE NÚMERO DE ALUNOS
     const ctxLinha = document.getElementById('graficoLinha')?.getContext('2d'); 
 
     if(ctxLinha) {

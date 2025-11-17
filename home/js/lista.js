@@ -3,6 +3,7 @@ const formAddAluno = document.querySelector('.formAddAluno')
 
 const campoData = document.querySelector('#NascimentoAluno')
 
+// FORMARTANDO O FORMATO DATA PARA O BRASIL
 campoData.addEventListener('input', () => {
     let v = campoData.value.replace(/\D/g, ""); // só números
 
@@ -16,7 +17,7 @@ campoData.addEventListener('input', () => {
     campoData.value = v.substring(0, 10); // limita a dd/mm/aaaa
 });
 
-
+// RECEBENDO OS DADOS DO FORM
 if(formAddAluno && !formAddAluno.dataset.listernerAdded){
 
     formAddAluno.dataset.listernerAdded = "true"
@@ -59,11 +60,13 @@ if(formAddAluno && !formAddAluno.dataset.listernerAdded){
     })
 }
 
+// CONVERTENDO O NASCIMENTO
 function converterParaISO(dataBr){
     let [dia, mes, ano] = dataBr.split('/')
     return `${ano}-${mes}-${dia}`
 }
 
+// MOSTRANDO LISTA NA TELA
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.listaAlunos');
     if (!container) return; // <-- impede erro no home.html
@@ -87,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // FILTRO DE IDADE
     let ordenarCrescente = true; // alterna entre crescente e decrescente
 
     const spanIdade = document.querySelector('.filtroIdade');
@@ -126,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
+// CRIANDO CADA DIV DE ALUNO PARA FAZER A LISTA
 function criarAlunoHTML(aluno){
     const div = document.createElement('div')
     div.classList.add('alunoLista')
@@ -146,11 +151,11 @@ function criarAlunoHTML(aluno){
             <button class="excluir">Excluir</button>
         </i>
     `
-
+    // BOTÃO VER
     div.querySelector('.ver').addEventListener('click', function() {
     abrirModalVerAluno(aluno)
-})
-
+    })
+    // BOTÃO EXCLUIR
     div.querySelector('.excluir').addEventListener('click', function(){
         const res = window.confirm(`Tem certeza que deseja excluir o aluno ${aluno.nome}?`)
         if (res) excluirAlunoLista(aluno.id, div)
@@ -159,7 +164,7 @@ function criarAlunoHTML(aluno){
     return div
 }
 
-
+// FUNÇÃO DE EXCLUIR ALUNO
 function excluirAlunoLista(id, elementoHTML){
     let alunos = JSON.parse(localStorage.getItem('alunos')) || []
 
@@ -170,6 +175,7 @@ function excluirAlunoLista(id, elementoHTML){
     elementoHTML.remove()
 }
 
+// CALCULAR IDADE
 function calcularIdade(data){
     if(!data) return null
     const hoje = new Date()
@@ -182,10 +188,7 @@ function calcularIdade(data){
     return idade
 }
 
-// ===============================
 // ADICIONAR EM MASSA
-// ===============================
-
 const btnAdicionarMassa = document.querySelector('#btnAdicionarMassa');
 const textareaMassa = document.querySelector('#textoArea');
 
@@ -249,6 +252,7 @@ if (btnAdicionarMassa && textareaMassa) {
     });
 }
 
+// MODAL DO BOTÃO VER DO ALUNO
 const modalVerAluno = document.querySelector('.modalVerAluno');
 
 function abrirModalVerAluno(aluno) {
@@ -273,7 +277,7 @@ function abrirModalVerAluno(aluno) {
     document.querySelector('#ver_anamnese').textContent = aluno.anaminese ? "Sim" : "Não";
 }
 
-// botão de fechar
+// BOTÃO PARA FECHAR O MODAL
 const btnFecharVer = document.querySelector('#btnFecharVer');
 if (btnFecharVer) {
     btnFecharVer.addEventListener('click', () => {
