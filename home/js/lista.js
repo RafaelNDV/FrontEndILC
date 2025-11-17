@@ -1,4 +1,7 @@
 console.log('lista.js carregada')
+
+let idEditando = null;
+
 const formAddAluno = document.querySelector('.formAddAluno')
 
 const campoData = document.querySelector('#NascimentoAluno')
@@ -44,6 +47,7 @@ if (campoCPF) {
     });
 }
 
+// FORMATANDO O CONTATO 1 E 2
 function aplicarMascaraTelefone(input) {
     input.addEventListener('input', () => {
         let v = input.value.replace(/\D/g, "").slice(0, 11); // apenas números, máximo 11 dígitos
@@ -71,6 +75,34 @@ const contato2 = document.querySelector('#contato2');
 if (contato1) aplicarMascaraTelefone(contato1);
 if (contato2) aplicarMascaraTelefone(contato2);
 
+// FORMATANDO O RG
+const campoRG = document.querySelector('#RG');
+
+if (campoRG) {
+    campoRG.setAttribute('inputmode', 'numeric'); 
+    campoRG.setAttribute('maxlength', '12'); // 9 números + 2 pontos + 1 traço
+
+    campoRG.addEventListener('input', () => {
+        let v = campoRG.value.replace(/\D/g, "").slice(0, 9); // só números, máx. 9
+
+        // Aplica a máscara
+        if (v.length <= 2) {
+            campoRG.value = v;
+        } 
+        else if (v.length <= 5) {
+            // 00.000
+            campoRG.value = v.replace(/(\d{2})(\d+)/, "$1.$2");
+        } 
+        else if (v.length <= 8) {
+            // 00.000.000
+            campoRG.value = v.replace(/(\d{2})(\d{3})(\d+)/, "$1.$2.$3");
+        } 
+        else {
+            // 00.000.000-0
+            campoRG.value = v.replace(/(\d{2})(\d{3})(\d{3})(\d)/, "$1.$2.$3-$4");
+        }
+    });
+}
 
 // RECEBENDO OS DADOS DO FORM
 if(formAddAluno && !formAddAluno.dataset.listernerAdded){
@@ -103,13 +135,21 @@ if(formAddAluno && !formAddAluno.dataset.listernerAdded){
 
         let alunos = JSON.parse(localStorage.getItem('alunos')) || []
 
-        alunos.push(dados)
+        if(idEditando){
+            alunos = alunos.map(a => a.id === idEditando ? dados : a)
+            idEditando = null
+        }else{
+            alunos.push(dados)
+        }
 
         localStorage.setItem('alunos', JSON.stringify(alunos))
 
         telaModal.style.display = 'none'
         modalAdicionarAluno.style.display = 'none'
-        formAddAluno.reset() 
+        formAddAluno.reset()
+        document.querySelector('.btnAdicionar').textContent = 'Adicionar'
+        
+        atualizarListaAlunos()
         
         console.log("Lista completa de alunos agora: ", alunos)
     })
@@ -120,6 +160,13 @@ function converterParaISO(dataBr){
     let [dia, mes, ano] = dataBr.split('/')
     return `${ano}-${mes}-${dia}`
 }
+
+// CONVERTENDO DE VOLTA
+function formatarDataBR(dataISO) {
+    const [ano, mes, dia] = dataISO.split('-');
+    return `${dia}/${mes}/${ano}`;
+}
+
 
 // MOSTRANDO LISTA NA TELA
 document.addEventListener('DOMContentLoaded', () => {
@@ -210,6 +257,11 @@ function criarAlunoHTML(aluno){
     div.querySelector('.ver').addEventListener('click', function() {
     abrirModalVerAluno(aluno)
     })
+
+    div.querySelector('.editar').addEventListener('click', function() {
+    abrirModalEditarAluno(aluno);
+    });
+
     // BOTÃO EXCLUIR
     div.querySelector('.excluir').addEventListener('click', function(){
         const res = window.confirm(`Tem certeza que deseja excluir o aluno ${aluno.nome}?`)
@@ -218,6 +270,36 @@ function criarAlunoHTML(aluno){
 
     return div
 }
+
+// ABRIR MODAL PARA EDITAR ALUNO
+function abrirModalEditarAluno(aluno) {
+    idEditando = aluno.id; // <-- marcando qual aluno será editado
+
+    // mostrar modal
+    telaModal.style.display = 'flex';
+    modalAdicionarAluno.style.display = 'block';
+
+    // preencher campos
+    document.querySelector('#nomeAluno').value = aluno.nome;
+    document.querySelector('#NascimentoAluno').value = formatarDataBR(aluno.nascimento);
+    document.querySelector('#RG').value = aluno.rg;
+    document.querySelector('#cpfAluno').value = aluno.cpf;
+    document.querySelector('#enderecoAluno').value = aluno.endereco;
+    document.querySelector('#numeroEndereco').value = aluno.numero;
+    document.querySelector('#bairroAluno').value = aluno.bairro;
+    document.querySelector('#municipio').value = aluno.municipio;
+    document.querySelector('#escolaAluno').value = aluno.escola;
+    document.querySelector('#serieAluno').value = aluno.serie;
+    document.querySelector('#turnoAluno').value = aluno.turno;
+    document.querySelector('#contato1').value = aluno.contato1;
+    document.querySelector('#contato2').value = aluno.contato2;
+    document.querySelector('#responsavelAluno').value = aluno.responsavel;
+    document.querySelector('#anaminese').checked = aluno.anaminese;
+
+    // mudar texto do botão
+    document.querySelector('.btnAdicionar').textContent = "Salvar Edição";
+}
+
 
 // FUNÇÃO DE EXCLUIR ALUNO
 function excluirAlunoLista(id, elementoHTML){
@@ -364,4 +446,15 @@ campos.forEach((campo, index) => {
         }
     });
 });
+
+// ATUALIZANDO LISTA DEPOIS DE EDITAR O ALUNO
+function atualizarListaAlunos() {
+    let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+
+    const container = document.querySelector('.listaAlunos');
+
+    document.querySelectorAll('.alunoLista').forEach(div => div.remove());
+
+    alunos.forEach(a => container.appendChild(criarAlunoHTML(a)));
+}
 
