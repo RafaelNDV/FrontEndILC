@@ -315,6 +315,9 @@ h2{
     justify-content: center;
     align-items: center;
 }
+.filtro i{
+    font-size: .6em;
+}
 #pesquisa{
     background-color: rgb(167, 167, 167);
     border: none;

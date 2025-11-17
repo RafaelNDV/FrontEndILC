@@ -87,6 +87,43 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    let ordenarCrescente = true; // alterna entre crescente e decrescente
+
+    const spanIdade = document.querySelector('.filtroIdade');
+    spanIdade.style.cursor = 'pointer';
+
+    spanIdade.addEventListener('click', () => {
+
+        const cima = document.querySelector('#cima')
+        const baixo = document.querySelector('#baixo')
+
+        if(ordenarCrescente){
+            cima.style.display = 'none'
+            baixo.style.display = 'inline-block'
+        }else{
+            baixo.style.display = 'none'
+            cima.style.display = 'inline-block'
+        }
+
+        let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+
+        alunos.sort((a, b) => {
+            const idadeA = calcularIdade(a.nascimento);
+            const idadeB = calcularIdade(b.nascimento);
+
+            return ordenarCrescente ? idadeA - idadeB : idadeB - idadeA;
+        });
+
+        ordenarCrescente = !ordenarCrescente;
+
+        const container = document.querySelector('.listaAlunos');
+
+        // remove alunos atuais
+        document.querySelectorAll('.alunoLista').forEach(div => div.remove());
+
+        // recria com a ordem nova
+        alunos.forEach(a => container.appendChild(criarAlunoHTML(a)));
+    });
 });
 
 
@@ -115,7 +152,8 @@ function criarAlunoHTML(aluno){
 })
 
     div.querySelector('.excluir').addEventListener('click', function(){
-        excluirAlunoLista(aluno.id, div)
+        const res = window.confirm(`Tem certeza que deseja excluir o aluno ${aluno.nome}?`)
+        if (res) excluirAlunoLista(aluno.id, div)
     })
 
     return div
